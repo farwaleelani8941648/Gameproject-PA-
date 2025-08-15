@@ -1,6 +1,4 @@
 ---
-
-```markdown
 # Farming Empire
 
 A 2D management game built with **Python 3.12.10**, **Arcade 3.3.2**, and **SQLite**. You plant crops, place and upgrade factories (in Level 2), activate employees who move with **BFS** pathfinding to harvest fully grown crops, and gain periodic rewards every **60 seconds**. The game saves and loads complete snapshots to a local SQLite database.
@@ -242,7 +240,3 @@ This repository is provided for academic use. You may read and run the game loca
 
 * **Name:** Umm E Farwa Leelani (etu55983)
 * **Email:** [etu55983@henallux.be](mailto:etu55983@henallux.be)
-
-```
-
----
