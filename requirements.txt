@@ -1,0 +1,8 @@
+# Core runtime
+arcade==3.3.2
+Pillow>=10.0.0
+
+# Notes:
+# - sqlite3, json, os, time, collections, glob are from Python's standard library.
+# - Arcade will install its own dependencies (e.g., pyglet) automatically.
+# - Tested with Python 3.12.10.
