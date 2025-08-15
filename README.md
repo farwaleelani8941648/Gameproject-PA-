@@ -1,3 +1,6 @@
+---
+
+```markdown
 # Farming Empire
 
 A 2D management game built with **Python 3.12.10**, **Arcade 3.3.2**, and **SQLite**. You plant crops, place and upgrade factories (in Level 2), activate employees who move with **BFS** pathfinding to harvest fully grown crops, and gain periodic rewards every **60 seconds**. The game saves and loads complete snapshots to a local SQLite database.
@@ -47,11 +50,11 @@ Key points:
 
 ## Tech Stack
 
-- Language: Python **3.12.10**
-- 2D Framework: Arcade **3.3.2**
-- Database: SQLite (**sqlite3** module)
-- Imaging: Pillow (via Arcade)
-- OS/Runtime: Desktop (tested on Windows; local only, no servers)
+- **Language:** Python 3.12.10  
+- **2D Framework:** Arcade 3.3.2  
+- **Database:** SQLite (`sqlite3` module)  
+- **Imaging:** Pillow (via Arcade)  
+- **OS/Runtime:** Desktop (tested on Windows; local only, no servers)  
 
 Dependencies are listed in `requirements.txt`.
 
@@ -59,41 +62,44 @@ Dependencies are listed in `requirements.txt`.
 
 ## Project Structure
 
+```
+
 FarmingEmpire/
 ├─ main.py
 ├─ assets/
-│ ├─ images/
-│ └─ sounds/
+│  ├─ images/
+│  └─ sounds/
 ├─ auth/
-│ ├─ login.py
-│ ├─ register.py
-│ └─ user_model.py
+│  ├─ login.py
+│  ├─ register.py
+│  └─ user\_model.py
 ├─ database/
-│ ├─ db_setup.py
-│ └─ game_data.db # auto-created at runtime if missing
+│  ├─ db\_setup.py
+│  └─ game\_data.db  # auto-created at runtime if missing
 ├─ game/
-│ ├─ banimations.py
-│ ├─ cell.py
-│ ├─ crops.py
-│ ├─ employees.py
-│ ├─ factories.py
-│ ├─ game_state.py
-│ └─ resources.py
+│  ├─ banimations.py
+│  ├─ cell.py
+│  ├─ crops.py
+│  ├─ employees.py
+│  ├─ factories.py
+│  ├─ game\_state.py
+│  └─ resources.py
 ├─ ui/
-│ ├─ animations.py
-│ ├─ drawing_helpers.py
-│ ├─ game_menu_view.py
-│ ├─ game_ui_utils.py
-│ ├─ game_window.py
-│ ├─ icons.py
-│ ├─ login_view.py
-│ ├─ menu_view.py
-│ ├─ register_view.py
-│ ├─ saves_view.py
-│ └─ theme.py
+│  ├─ animations.py
+│  ├─ drawing\_helpers.py
+│  ├─ game\_menu\_view\.py
+│  ├─ game\_ui\_utils.py
+│  ├─ game\_window\.py
+│  ├─ icons.py
+│  ├─ login\_view\.py
+│  ├─ menu\_view\.py
+│  ├─ register\_view\.py
+│  ├─ saves\_view\.py
+│  └─ theme.py
 ├─ requirements.txt
 └─ README.md
 
+````
 
 Assets: place PNG sprites in `assets/images/`. The employee sprite sheet should be a grid (2 columns × 12 rows); the game uses the **first 16 frames** for walking/harvesting. Include crop growth stage images and a Home icon.
 
@@ -103,130 +109,140 @@ Assets: place PNG sprites in `assets/images/`. The employee sprite sheet should 
 
 ### 1) Create a virtual environment
 
-Windows (PowerShell):
+**Windows (PowerShell):**
 ```powershell
 py -3.12 -m venv .venv
 .venv\Scripts\Activate.ps1
+````
 
-macOS / Linux:
+**macOS / Linux:**
 
+```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
+```
 
-2) Install dependencies
+---
 
+### 2) Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-3) First run creates the database
+---
 
-The game creates database/game_data.db at first run if it does not exist.
-Running the Game
+### 3) First run creates the database
+
+The game creates `database/game_data.db` at first run if it does not exist.
+
+---
+
+## Running the Game
 
 From the project root (with the virtual environment activated):
 
+```bash
 python main.py
+```
 
-An Arcade window titled “Farming Empire” will open.
-How to Play
+An Arcade window titled **"Farming Empire"** will open.
 
-    Register or Login from the menu.
+---
 
-    Start New Game (or Load Game if you have a save).
+## How to Play
 
-    Level 1:
+1. Register or Login from the menu.
+2. Start New Game (or Load Game if you have a save).
+3. **Level 1**:
 
-        Use Plant Crop on empty tiles (cost: 2/2/2 food/water/coins).
+   * Use *Plant Crop* on empty tiles (cost: 2/2/2 food/water/coins).
+   * Replace Crop to remove a crop (cost: 1/1/1).
+   * Reach Level 1 goals (plant ≥10 crops and earn ≥60 of each since L1 start) to unlock Level 2.
+4. **Level 2**:
 
-        Replace Crop to remove a crop (cost: 1/1/1).
+   * Place Factory (cost: 5/5/5), Replace Factory (instant +3/+3/+3), Upgrade Factory (cost: 10 × level; L1→L2 raises periodic reward).
+   * Employees: click Home (0,0) to arm → click a fully grown crop to assign a worker.
+5. Auto-harvest: every 60 seconds, rewards are added and a message lists the gains.
+6. Save at any time from the left panel. Quit via the UI.
 
-        Reach Level 1 goals (plant ≥10 crops and earn ≥60 of each since L1 start) to unlock Level 2.
+**Controls:** mouse click on UI buttons and grid tiles.
 
-    Level 2:
+---
 
-        Place Factory (cost: 5/5/5), Replace Factory (instant +3/+3/+3), Upgrade Factory (cost: 10 × level; L1→L2 raises periodic reward).
+## Mechanics & Rules
 
-        Employees: click Home (0,0) to arm → click a fully grown crop to assign a worker.
+* **Grid:** 8×8; the Home tile at (0,0) cannot host crops/factories.
+* **Costs:** plant (2/2/2), replace crop (1/1/1), place factory (5/5/5), upgrade factory (10 × current level).
+* **Rewards:** replace factory gives +3/+3/+3 immediately; periodic rewards on the 60s tick (factories: 2/2/2 at L1, 3/3/3 at L2).
+* **Growth:** crops take \~50 seconds to fully grow; after harvest, the tile is invisible \~2 seconds, then restarts growth.
+* **Employees:** +1 after two factory placements, −1 after two factory removals (not below 0). Max \~5 workers at once.
+* **Pathfinding:** BFS (4-directional) through empty tiles to the target crop; shortest path in an unweighted grid.
+* **Resource safety:** all spending is guarded; counts never go negative.
 
-    Auto-harvest: every 60 seconds, rewards are added and a message lists the gains.
+---
 
-    Save at any time from the left panel. Quit via the UI.
+## Save / Load
 
-Controls: mouse click on UI buttons and grid tiles.
-Mechanics & Rules
+* Save writes a full snapshot: level, resources, 8×8 grid, and per-level baselines.
+* List Saves shows your saves (newest first).
+* Load restores the snapshot exactly (including level and resources).
 
-    Grid: 8×8; the Home tile at (0,0) cannot host crops/factories.
+**Database schema (simplified):**
 
-    Costs: plant (2/2/2), replace crop (1/1/1), place factory (5/5/5), upgrade factory (10 × current level).
-
-    Rewards: replace factory gives +3/+3/+3 immediately; periodic rewards on the 60s tick (factories: 2/2/2 at L1, 3/3/3 at L2).
-
-    Growth: crops take about 50 seconds to fully grow; after harvest, the tile is invisible about 2 seconds, then restarts growth.
-
-    Employees: +1 after two factory placements, −1 after two factory removals (not below 0). Typically, at most five workers are assigned at once for clarity.
-
-    Pathfinding: BFS (4-directional) through empty tiles to the target crop; shortest path in an unweighted grid.
-
-    Resource safety: all spending is guarded; counts never go negative.
-
-Save / Load
-
-    Save writes a full snapshot: level, resources, 8×8 grid, and per-level baselines.
-
-    List Saves shows your saves (newest first).
-
-    Load restores the snapshot exactly (including level and resources).
-
-Database schema (simplified):
-
+```
 users(id PK, username UNIQUE, email, password)
 saves(id PK, username, level, resources TEXT, grid TEXT, level1_start TEXT, level2_start TEXT, save_time DEFAULT CURRENT_TIMESTAMP)
+```
 
-Notes:
+**Notes:**
 
-    Passwords are stored in plain text in this academic build.
+* Passwords are stored in plain text in this academic build.
+* The link `saves.username → users.username` is enforced in code (no explicit foreign key).
 
-    The link saves.username → users.username is enforced in code (no explicit foreign key).
+---
 
-Known Limitations
+## Known Limitations
 
-    Passwords are plain text (acceptable for course scope; to be hashed/salted in a production build).
+* Passwords are plain text (acceptable for course scope; to be hashed/salted in a production build).
+* Saves store the grid/resources/baselines as JSON strings (good for snapshots; not ideal for SQL analytics).
+* No explicit foreign key from `saves.username` to `users.username` (enforced in application logic).
+* Basic BFS pathfinding; no collision avoidance between multiple workers (acceptable at 8×8 scale).
+* No automated unit tests in the repository; testing is manual (see project report).
 
-    Saves store the grid/resources/baselines as JSON strings (good for snapshots; not ideal for SQL analytics).
+---
 
-    No explicit foreign key from saves.username to users.username (enforced in application logic).
+## Roadmap
 
-    Basic BFS pathfinding; no collision avoidance between multiple workers (acceptable at 8×8 scale).
+* Hash and salt passwords (e.g., bcrypt) and add login throttling.
+* Add a foreign key for saves and consider normalizing grid cells for analytics.
+* Switch to A\* for larger/weighted maps; introduce a job queue with priorities and simple collision avoidance.
+* Autosave, configurable save-slot limit, optional cloud sync.
+* UX improvements: tutorial, tooltips, adjustable speeds, accessibility palette.
 
-    No automated unit tests in the repository; testing is manual (see project report).
+---
 
-Roadmap
+## Credits
 
-    Hash and salt passwords (e.g., bcrypt) and add login throttling.
+* **Author:** Umm E Farwa Leelani (etu55983)
+* **Professor:** Huygens Adrien
+* **Institution:** Henallux (academic project)
+* **Thanks:** Open-source communities behind Python, Arcade, and SQLite.
 
-    Add a foreign key for saves and consider normalizing grid cells for analytics.
+---
 
-    Switch to A* for larger/weighted maps; introduce a job queue with priorities and simple collision avoidance.
-
-    Autosave, configurable save-slot limit, optional cloud sync.
-
-    UX improvements: tutorial, tooltips, adjustable speeds, accessibility palette.
-
-Credits
-
-    Author: Umm E Farwa Leelani (etu55983)
-
-    Professor: Huygens Adrien
-
-    Institution: Henallux (academic project)
-
-    Thanks: Open-source communities behind Python, Arcade, and SQLite.
-
-License
+## License
 
 Copyright © 2025 Umm E Farwa Leelani
 This repository is provided for academic use. You may read and run the game locally. For other uses, please contact the author.
-Contact
 
-    Name: Umm E Farwa Leelani (etu55983)
+---
 
-    Email: etu55983@henallux.be
+## Contact
+
+* **Name:** Umm E Farwa Leelani (etu55983)
+* **Email:** [etu55983@henallux.be](mailto:etu55983@henallux.be)
+
+```
+
+---
